@@ -28,7 +28,7 @@ jobs:
       - name: 'getIPfrompubVmessfromGithub'
         env:
           cloudflare_zone_id: ${{ secrets.cloudflare_zone_id }} 
-          cloudflare_target_domain: ${{ secrets.cloudflare_target_domain }} 
-		  cloudflare_email: ${{ secrets.cloudflare_email }} 
+          cloudflare_target_domain: ${{ secrets.cloudflare_target_domain }}
+          cloudflare_email: ${{ secrets.cloudflare_email }}
           cloudflare_api_key: ${{ secrets.cloudflare_api_key }} 
         run: python getIPfrompubVmessfromGithub.py
