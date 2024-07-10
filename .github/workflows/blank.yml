@@ -1,0 +1,34 @@
+name: 'GitHub Actions For V2ray subScribe'
+
+on:
+  watch:
+    types: started  # 当有人开始关注这个仓库时触发
+  push:  # 当有推送到这个仓库时触发
+  schedule:
+    - cron: '30 3 * * *'  # 每天 UTC 时间 21:00 触发
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest  # 指定运行环境为最新的 Ubuntu
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v1  # 检出仓库代码
+      
+      - name: 'Set up Python'
+        uses: actions/setup-python@v1  # 设置 Python 环境
+        with:
+          python-version: '3.8'  # 指定 Python 版本为 3.8
+
+      - name: 'Install requirements'
+        run: |
+          python -m pip install --upgrade pip  # 升级 pip
+          pip install -r requirements.txt  # 从 requirements.txt 安装所需的 Python 包
+
+
+      - name: 'getIPfrompubVmessfromGithub'
+        env:
+          cloudflare_zone_id: ${{ secrets.cloudflare_zone_id }} 
+          cloudflare_target_domain: ${{ secrets.cloudflare_target_domain }} 
+		  cloudflare_email: ${{ secrets.cloudflare_email }} 
+          cloudflare_api_key: ${{ secrets.cloudflare_api_key }} 
+        run: python getIPfrompubVmessfromGithub.py
