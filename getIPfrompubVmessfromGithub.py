@@ -1,6 +1,6 @@
 import base64
 import json
-import requests,os,re
+import requests,os,re,random
 from collections import OrderedDict
 
 
@@ -51,7 +51,7 @@ listRecord_url = f"https://api.cloudflare.com/client/v4/zones/{os.environ['cloud
 xxparams = {
     # 可选参数：
     "page": 1,
-    "per_page": 300
+    "per_page": 200
 }
 # 列出所有dns id
 def ListRecord_Func():
@@ -113,6 +113,14 @@ deleteRecord_Func()
 fetch_and_decode_vmess_links(xxxurl)
 
 iplist_values = list(OrderedDict.fromkeys(iplist_values))
+
+# 初始化计数器
+count = 0
 for ip in iplist_values:
-    if '104' in ip or '172' in ip :
+    # 如果 IP 地址包含 '104'，则调用 addRecord_Func 函数并增加计数器
+    if '104' in ip:
         addRecord_Func(ip)
+        count += 1
+    
+    if count >=200:
+        break
