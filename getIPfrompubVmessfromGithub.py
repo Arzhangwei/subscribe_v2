@@ -47,9 +47,15 @@ def deleteRecord_Func():
 
 #########################################【listRecord_url】###################################
 listRecord_url = f"https://api.cloudflare.com/client/v4/zones/{os.environ['cloudflare_zone_id']}/dns_records"
+# 设置请求参数
+xxparams = {
+    # 可选参数：
+    "page": 1,
+    "per_page": 300
+}
 # 列出所有dns id
 def ListRecord_Func():
-    response = requests.request("GET", listRecord_url, headers=addRecord_headers)
+    response = requests.request("GET", listRecord_url, headers=addRecord_headers, params=xxparams)
     print(response.text)
     # 解析 JSON
     data = json.loads(response.text)
@@ -108,4 +114,5 @@ fetch_and_decode_vmess_links(xxxurl)
 
 iplist_values = list(OrderedDict.fromkeys(iplist_values))
 for ip in iplist_values:
-  addRecord_Func(ip)
+    if '104' in ip or '172' in ip :
+        addRecord_Func(ip)
