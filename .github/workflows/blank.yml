@@ -5,7 +5,7 @@ on:
     types: started  # 当有人开始关注这个仓库时触发
   push:  # 当有推送到这个仓库时触发
   schedule:
-    - cron: '30 3 * * *'  # 每天 UTC 时间 21:00 触发
+    - cron: '30 22 * * *'  # 每天 UTC 时间 21:00 触发
 
 jobs:
   bot:
