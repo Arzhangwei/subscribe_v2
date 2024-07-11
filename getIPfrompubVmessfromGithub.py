@@ -55,8 +55,8 @@ def ListRecord_Func():
     data = json.loads(response.text)
     # 获取所有记录
     records = data["result"]
-    # 筛选出 name 为 "fast.bankwjj.tk" 的记录中的每个 id 值
-    filtered_ids = [record["id"] for record in records if record["name"] == "fast.bankwjj.tk"]
+    # 筛选出 name 为 "域名" 的记录中的每个 id 值  
+    filtered_ids = [record["id"] for record in records if record["name"] == os.environ['CLOUDFLARE_TARGET_DOMAIN']]
     # 打印结果
     print(filtered_ids)
     return filtered_ids
