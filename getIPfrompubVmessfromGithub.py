@@ -56,7 +56,7 @@ def ListRecord_Func():
     # 获取所有记录
     records = data["result"]
     # 筛选出 name 为 "域名" 的记录中的每个 id 值  
-    filtered_ids = [record["id"] for record in records if record["name"] == os.environ['CLOUDFLARE_TARGET_DOMAIN']]
+    filtered_ids = [record["id"] for record in records if record["name"] == str(os.environ['cloudflare_target_domain'])]
     # 打印结果
     print(filtered_ids)
     return filtered_ids
