@@ -118,9 +118,10 @@ iplist_values = list(OrderedDict.fromkeys(iplist_values))
 count = 0
 for ip in iplist_values:
     # 如果 IP 地址包含 '104'，则调用 addRecord_Func 函数并增加计数器
+       
+    if count >=200:
+        break
+
     if '104' in ip:
         addRecord_Func(ip)
         count += 1
-    
-    if count >=200:
-        break
