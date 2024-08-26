@@ -57,6 +57,8 @@ xxparams = {
 def ListRecord_Func():
     response = requests.request("GET", listRecord_url, headers=addRecord_headers, params=xxparams)
     print(response.text)
+    if 'Authentication error' in response.text:
+        print('API KEY 可能已经过期，请检查。')
     # 解析 JSON
     data = json.loads(response.text)
     # 获取所有记录
@@ -74,14 +76,21 @@ def decode_vmess_links(vmess_links):
     decoded_data = []
     for link in vmess_links:
         # Remove the 'vmess://' prefix
-        link = link.replace('vmess://', '')
-        # Decode the base64 encoded string
-        decoded_str = base64.b64decode(link).decode()
+        # Remove the 'vmess://' prefix
+        try:
+            # Remove the 'vmess://' prefix and decode the base64 encoded string
+            decoded_str = base64.b64decode(link.replace('vmess://', '')).decode('utf-8', errors='replace')
+            # Parse the JSON data
+            vmess_data = json.loads(decoded_str)
+            # ... rest of your code ...
+        except (base64.binascii.Error, UnicodeDecodeError) as e:
+            print(f"Error decoding link {link}: {e}")
+            continue
+        except json.JSONDecodeError as e:
+            print(f"Error parsing JSON from link {link}: {e}")
+            continue
+
         decoded_data.append(decoded_str)
-        
-        # Parse the JSON data
-        vmess_data = json.loads(decoded_str)
-        
         if 'add' in vmess_data:
              # 过滤包含域名，只保留数字，大部分域名都不可用。
             if not re.search('[a-zA-Z]', vmess_data['add']):
