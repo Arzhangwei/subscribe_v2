@@ -4,6 +4,13 @@ import requests,os,re,random
 from collections import OrderedDict
 
 
+######################################
+#    根据GitHub分享的公共节点，反解 cf ip 去GitHub action 更新节点
+#         update by bankwjj          # 
+#             20230926               #
+######################################
+
+
 
 # URL of the text file containing base64 encoded vmess links
 xxxurl = 'https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Splitted-By-Protocol/vmess.txt'
@@ -78,11 +85,25 @@ def decode_vmess_links(vmess_links):
         # Remove the 'vmess://' prefix
         # Remove the 'vmess://' prefix
         try:
-            # Remove the 'vmess://' prefix and decode the base64 encoded string
-            decoded_str = base64.b64decode(link.replace('vmess://', '')).decode('utf-8', errors='replace')
+            # # Remove the 'vmess://' prefix and decode the base64 encoded string
+            # decoded_str = base64.b64decode(link.replace('vmess://', '')).decode('utf-8', errors='replace')
+            # # Parse the JSON data
+            # vmess_data = json.loads(decoded_str)
+
+
+            decoded_str = link.replace('vmess://', '')
+            # Check if the string contains only ASCII characters
+            if not decoded_str.isascii():
+                raise ValueError("Non-ASCII characters found in the encoded string.")
+            # Decode the base64 encoded string
+            decoded_bytes = base64.b64decode(decoded_str)
+            decoded_str2 = decoded_bytes.decode('utf-8', errors='replace')
             # Parse the JSON data
-            vmess_data = json.loads(decoded_str)
+            vmess_data = json.loads(decoded_str2)
             # ... rest of your code ...
+        except ValueError as e:
+            print(f"ValueError for link {link}: {e}")
+            continue
         except (base64.binascii.Error, UnicodeDecodeError) as e:
             print(f"Error decoding link {link}: {e}")
             continue
@@ -90,7 +111,7 @@ def decode_vmess_links(vmess_links):
             print(f"Error parsing JSON from link {link}: {e}")
             continue
 
-        decoded_data.append(decoded_str)
+        decoded_data.append(decoded_str2)
         if 'add' in vmess_data:
              # 过滤包含域名，只保留数字，大部分域名都不可用。
             if not re.search('[a-zA-Z]', vmess_data['add']):
