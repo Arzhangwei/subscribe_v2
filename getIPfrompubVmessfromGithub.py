@@ -139,6 +139,7 @@ def fetch_and_decode_vmess_links(url):
 iplist_values = []
 # 先清空所有dns
 deleteRecord_Func()
+sys.exit(0)
 # 生成所有ip
 fetch_and_decode_vmess_links(xxxurl)
 
