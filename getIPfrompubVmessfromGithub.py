@@ -13,7 +13,7 @@ from collections import OrderedDict
 
 
 # URL of the text file containing base64 encoded vmess links
-xxxurl = 'https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Splitted-By-Protocol/vmess.txt'
+xxxurl = '1.txt'
 #########################################【addRecord_url】###################################
 addRecord_url = f"https://api.cloudflare.com/client/v4/zones/{os.environ['cloudflare_zone_id']}/dns_records"
 addRecord_payload = {
